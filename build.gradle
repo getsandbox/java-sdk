@@ -17,7 +17,7 @@ def excludedSources = ['org/**','**/config','**/constants', '**/resources']
 buildscript {
     repositories { jcenter() }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.1.1'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
     }
 }
 
