@@ -1,0 +1,63 @@
+apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'maven-publish'
+
+sourceCompatibility = 1.7
+group = 'com.sandbox'
+version = '1.0'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+//array of ignored source package for code coverage
+def excludedSources = ['org/**','**/config','**/constants', '**/resources']
+
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.1.1'
+    }
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) {
+            from components.java
+            artifact shadowJar
+        }
+    }
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url "$buildDir/repo"
+        }
+    }
+}
+
+dependencies {
+    compile project(':model')
+
+    compile 'org.apache.httpcomponents:httpclient:4.5'
+    compile 'org.apache.httpcomponents:fluent-hc:4.5'
+
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.assertj:assertj-core:2.1.0'
+    testCompile 'org.apache.camel:camel-jms:2.14.0'
+    testCompile 'org.apache.activemq:activemq-camel:5.11.1'
+
+}
+
+jar {
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+
+}
+
+shadowJar {
+    dependencies {
+        exclude(dependency('org.slf4j:slf4j-api:1.7.7'))
+    }
+}
