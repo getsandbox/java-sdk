@@ -44,7 +44,7 @@ dependencies {
 
     testCompile 'junit:junit:4.11'
     testCompile 'org.assertj:assertj-core:2.1.0'
-    testCompile 'org.apache.camel:camel-jms:2.14.0'
+    testCompile 'org.apache.camel:camel-jms:2.16.1'
     testCompile 'org.apache.activemq:activemq-camel:5.11.1'
 
 }
