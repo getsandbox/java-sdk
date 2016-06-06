@@ -12,8 +12,6 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +79,7 @@ public class SandboxClient {
 
         try {
             URIBuilder builder = new URIBuilder(sandboxBaseUrl);
-            builder.setPath("/api/1/users/api/sandboxes/activity")
+            builder.setPath("/api/1/activity/search")
                     .setParameter("fromTimestamp", String.valueOf(fromTimestamp))
                     .setParameter("maxResults", String.valueOf(maxResults))
                     .setParameter("sourceSandboxes", join(sourceSandboxName, ","));
@@ -92,14 +90,11 @@ public class SandboxClient {
                     .addHeader("API-Key", apiKey)
                     .execute().returnContent().asString();
 
-            List<ActivityMessage> messages = mapper.readValue(responseStr, new TypeReference<List<ActivityMessage>>() {
-            });
+            List<ActivityMessage> messages = mapper.readValue(responseStr, new TypeReference<List<ActivityMessage>>() {});
             activityMessages.addAll(messages);
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return activityMessages;
